@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Shroud — your first shielded Zcash transaction</title>
+<meta name="description" content="An interactive, zero-network course that takes you from nothing to your first shielded Zcash transaction, with a real address decoder and a Leak Lab that shows what an observer would learn.">
+<meta name="theme-color" content="#0c0b09">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/vendor/qrcode.min.js" defer></script>
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<a class="skip" href="#course">Skip to the course</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Shroud home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"/><path d="M16 3a13 13 0 0 1 0 26z" fill="var(--gold)"/><path d="M8 12h11M8 16h13M8 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Shroud
+    </a>
+    <ul>
+      <li><a href="#course">Course</a></li>
+      <li><a href="#workshop" data-tab="lab">Leak Lab</a></li>
+      <li><a href="#workshop" data-tab="inspect">Inspector</a></li>
+      <li><a href="#workshop" data-tab="request">Requests</a></li>
+      <li><a href="#about">Privacy</a></li>
+    </ul>
+    <button class="icon-btn" id="theme" type="button" aria-label="Toggle light and dark theme">◐</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Zero to shielded · one afternoon</span>
+      <h1>Your first <span class="redact"><em>shielded</em></span> transaction.</h1>
+      <p class="lede">Most people never use Zcash’s privacy because nobody walks them through it. Shroud does: six short chapters, real tools that decode your addresses and audit your plan, and not a single byte sent to anyone.</p>
+      <div class="cta">
+        <a class="btn primary" href="#course">Start the course →</a>
+        <a class="btn" href="#workshop" data-tab="lab">Try the Leak Lab</a>
+      </div>
+      <div class="trust">
+        <span>No account</span><span>No analytics</span><span>No network requests</span><span>Open source</span>
+      </div>
+    </div>
+
+    <div class="ledger" aria-label="Illustration: what a public chain shows versus what a shielded chain shows" role="img">
+      <header><span>Transparent ledger</span><span class="tag pub">everything visible</span></header>
+      <div class="pane"><div class="scroll" data-rows="pub"></div></div>
+      <header><span>Shielded ledger</span><span class="tag priv">nothing visible</span></header>
+      <div class="pane"><div class="scroll slow" data-rows="priv"></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="course" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">§ 01 — The course</span>
+      <div><h2>Six chapters.<br>One real transaction.</h2></div>
+      <p></p>
+      <p>Tick things off as you do them in your own wallet. Progress is saved only in this browser, never sent anywhere. Do the chapters in order the first time through.</p>
+    </div>
+
+    <div class="course">
+      <aside class="rail" aria-label="Course progress">
+        <div class="ring" role="img" aria-label="Course progress">
+          <svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringfg" cx="60" cy="60" r="52"/></svg>
+          <div class="num" id="ringnum">0%</div>
+        </div>
+        <ol id="railnav"></ol>
+        <p class="note">Stored in your browser’s local storage on this device. Clear site data to reset.</p>
+      </aside>
+
+      <div id="chapters">
+
+        <article class="chapter reveal" id="c1" data-title="Get a wallet">
+          <span class="n">01</span>
+          <h3>Get a wallet that does the hard part for you</h3>
+          <p>A Zcash wallet holds the keys that control your coins. A good one speaks <strong>shielded</strong> by default, so privacy is the path of least resistance rather than a setting you hunt for.</p>
+          <div class="pills"><span class="pill">Look for <b>Unified Address</b> support</span><span class="pill">Look for <b>Orchard</b> support</span><span class="pill">Open source</span></div>
+          <p>Reference and community wallets worth looking at include <strong>Zodl</strong>, <strong>Zingo</strong> and <strong>YWallet</strong>. Shroud does not endorse any product: check each project’s official site and install only from the official app store or release page.</p>
+          <ul class="check" data-chapter="c1">
+            <li><label><input type="checkbox" data-id="c1a"><span>Installed a wallet from its official source and created a new wallet.</span></label></li>
+            <li><label><input type="checkbox" data-id="c1b"><span>Wrote the recovery phrase on paper, in order, and stored it offline.</span></label></li>
+            <li><label><input type="checkbox" data-id="c1c"><span>Confirmed the wallet shows a shielded or unified receive address.</span></label></li>
+          </ul>
+          <div class="callout danger"><span class="eyebrow">Never, ever</span><p>Your recovery phrase is the wallet. Nobody legitimate will ask for it: not support, not an “airdrop”, not this website. Shroud’s Inspector actively refuses to read it.</p></div>
+        </article>
+
+        <article class="chapter reveal" id="c2" data-title="Get some ZEC">
+          <span class="n">02</span>
+          <h3>Get a little ZEC</h3>
+          <p>You only need a small amount to learn on. Fees are tiny: a typical shielded send costs around <strong>0.0001 ZEC</strong> under ZIP-317, so a fraction of one coin is plenty.</p>
+          <p>You can buy on an exchange that lists ZEC, or swap in from another chain with a cross-chain service such as NEAR Intents. Whichever route you take, <strong>ask for the withdrawal to go to your wallet’s unified or shielded address</strong> if the sender supports it. Many don’t yet, and then it arrives at a transparent address, which is exactly what chapter 4 is for.</p>
+          <ul class="check" data-chapter="c2">
+            <li><label><input type="checkbox" data-id="c2a"><span>Copied my receiving address from the wallet and checked it in the <a href="#workshop" data-tab="inspect">Inspector</a>.</span></label></li>
+            <li><label><input type="checkbox" data-id="c2b"><span>Sent a tiny test amount first, then the rest.</span></label></li>
+            <li><label><input type="checkbox" data-id="c2c"><span>Waited for it to confirm. Blocks arrive about every 75 seconds.</span></label></li>
+          </ul>
+          <div class="callout"><span class="eyebrow">Reality check</span><p>Buying from a regulated exchange ties the purchase to your identity at that exchange. Zcash can’t change what a third party already knows. It protects what happens <em>after</em> the coins reach your own shielded wallet.</p></div>
+        </article>
+
+        <article class="chapter reveal" id="c3" data-title="Understand addresses">
+          <span class="n">03</span>
+          <h3>Read an address like a pro</h3>
+          <p>Zcash has two worlds. <strong>Transparent</strong> addresses (starting <code class="mono">t1</code> / <code class="mono">t3</code>) work like Bitcoin: public to everyone. <strong>Shielded</strong> pools (Sapling, then the newer Orchard) hide sender, receiver and amount behind zero-knowledge proofs.</p>
+          <p>A <strong>Unified Address</strong> (starts <code class="mono">u1</code>) bundles several receivers into one string. The sender’s wallet picks the best one it understands, ideally Orchard. Paste yours into the Inspector and watch it get taken apart in your browser, byte by byte.</p>
+          <a class="btn small try" href="#workshop" data-tab="inspect">Open the Address Inspector →</a>
+          <ul class="check" data-chapter="c3">
+            <li><label><input type="checkbox" data-id="c3a"><span>Decoded my own address and saw which pools it contains.</span></label></li>
+            <li><label><input type="checkbox" data-id="c3b"><span>Understand that a transparent receiver inside a unified address is a public fallback.</span></label></li>
+          </ul>
+        </article>
+
+        <article class="chapter reveal" id="c4" data-title="Shield your funds">
+          <span class="n">04</span>
+          <h3>Shield: step across the line</h3>
+          <p>If your ZEC landed at a transparent address, <strong>shielding</strong> moves it into your shielded balance. Your wallet does it in one tap, usually labelled “Shield”.</p>
+          <div class="flow" role="img" aria-label="Diagram: transparent funds are shielded into the shielded pool">
+            <div class="box tr"><h4>Transparent</h4><p>Source address and amount are public.</p></div>
+            <div class="arrow"><i>→</i><span>shield<br>(public step)</span></div>
+            <div class="box sh"><h4>Shielded pool</h4><p>From here, everything is encrypted.</p></div>
+          </div>
+          <p>Shielding itself is visible: the chain sees <em>that</em> value entered the pool and how much. What it can’t see is anything you do afterwards. That is why the next two chapters matter.</p>
+          <ul class="check" data-chapter="c4">
+            <li><label><input type="checkbox" data-id="c4a"><span>Shielded my funds and saw my balance move to “shielded” in the wallet.</span></label></li>
+            <li><label><input type="checkbox" data-id="c4b"><span>Ran my plan through the <a href="#workshop" data-tab="lab">Leak Lab</a>.</span></label></li>
+          </ul>
+        </article>
+
+        <article class="chapter reveal" id="c5" data-title="Send privately">
+          <span class="n">05</span>
+          <h3>Send and receive in private</h3>
+          <p>A shielded-to-shielded payment reveals nothing public beyond the fact that a transaction occurred. You can attach an encrypted <strong>memo</strong> (up to 512 bytes) that only the recipient can read, great for invoices and notes.</p>
+          <p>To ask someone to pay you, build a <strong>payment request</strong> (ZIP-321): a link and QR code carrying address, amount and memo, so nobody mistypes anything.</p>
+          <a class="btn small try" href="#workshop" data-tab="request">Open the Request Builder →</a>
+          <ul class="check" data-chapter="c5">
+            <li><label><input type="checkbox" data-id="c5a"><span>Sent a shielded payment to myself or a friend, with a memo.</span></label></li>
+            <li><label><input type="checkbox" data-id="c5b"><span>Received one and read its memo.</span></label></li>
+          </ul>
+        </article>
+
+        <article class="chapter reveal" id="c6" data-title="Unshield safely">
+          <span class="n">06</span>
+          <h3>Unshield, or better, don’t</h3>
+          <p>Sometimes you must cash out to a transparent address. <strong>Unshielding</strong> is the other public step: the amount and the destination become visible. The risk isn’t the step itself. It’s <em>pattern matching</em>: the same amount, soon after, to the same address.</p>
+          <div class="pills"><span class="pill"><b>Wait.</b> Days beat minutes.</span><span class="pill"><b>Vary</b> the amount.</span><span class="pill"><b>Fresh</b> destination address.</span><span class="pill"><b>Stay shielded</b> when you can.</span></div>
+          <ul class="check" data-chapter="c6">
+            <li><label><input type="checkbox" data-id="c6a"><span>Simulated an exit in the Leak Lab and fixed every critical finding.</span></label></li>
+            <li><label><input type="checkbox" data-id="c6b"><span>Know the three habits above and will use them.</span></label></li>
+          </ul>
+          <a class="btn small try" href="#workshop" data-tab="lab">Audit an exit plan →</a>
+          <div class="callout" id="grad" hidden><span class="eyebrow">Graduated</span><p>You’ve taken a coin from nothing to a shielded transaction and know how to keep it private. Welcome to the shielded set.</p></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="workshop">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">§ 02 — The workshop</span>
+      <div><h2>Tools that actually think.</h2></div>
+      <p></p>
+      <p>Three small instruments, all running locally in this page. The Inspector implements ZIP-316 Unified Address decoding from scratch, F4Jumble and all, and is verified against the official test vectors.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Workshop tools">
+      <button role="tab" id="t-lab" aria-controls="p-lab" aria-selected="true">Leak Lab</button>
+      <button role="tab" id="t-inspect" aria-controls="p-inspect" aria-selected="false">Address Inspector</button>
+      <button role="tab" id="t-request" aria-controls="p-request" aria-selected="false">Request Builder</button>
+    </div>
+
+    <!-- Leak Lab -->
+    <div class="panel" id="p-lab" role="tabpanel" aria-labelledby="t-lab">
+      <div class="lab">
+        <div class="card">
+          <span class="eyebrow">Plan</span>
+          <h3 class="lab-title">What are you about to do?</h3>
+          <p class="hint">Build the sequence of moves you’re considering. Amounts and addresses here are labels, nothing real.</p>
+          <div class="presets" id="presets"></div>
+          <div class="step-head" aria-hidden="true"><span></span><span>Action</span><span>Amount (ZEC)</span><span>Hours from start</span></div>
+          <div class="steps" id="steps"></div>
+          <div class="actions"><button class="btn small" id="addstep" type="button">+ Add step</button></div>
+          <p class="disclaimer">Leak Lab models <b>on-chain</b> linkage only: amount matching, timing, address reuse and pool crossing. It can’t see your IP address, exchange records or a compromised device. Treat the grade as hygiene, not a guarantee.</p>
+        </div>
+        <div class="card" aria-live="polite">
+          <span class="eyebrow">What an observer learns</span>
+          <div class="score" id="score"></div>
+          <div class="tl" id="timeline"></div>
+          <div id="findings"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspector -->
+    <div class="panel" id="p-inspect" role="tabpanel" aria-labelledby="t-inspect" hidden>
+      <div class="grid2">
+        <div class="card">
+          <span class="eyebrow">Input</span>
+          <label class="f" for="addr">Zcash address</label>
+          <textarea id="addr" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="u1…  zs1…  t1…  tex1…"></textarea>
+          <p class="hint">Decoded entirely in your browser. Don’t paste seed phrases or keys. The Inspector will refuse them.</p>
+          <div class="actions">
+            <button class="btn small" id="sample-u" type="button">Sample unified</button>
+            <button class="btn small" id="sample-t" type="button">Sample transparent</button>
+            <button class="btn small" id="clear-addr" type="button">Clear</button>
+          </div>
+          <p class="hint">Samples are a public protocol test vector and a synthetic address, not anyone’s wallet.</p>
+        </div>
+        <div class="result empty" id="inspect-out" aria-live="polite"><p>Paste an address to take it apart.</p></div>
+      </div>
+    </div>
+
+    <!-- Request -->
+    <div class="panel" id="p-request" role="tabpanel" aria-labelledby="t-request" hidden>
+      <div class="grid2">
+        <div class="card">
+          <span class="eyebrow">Compose</span>
+          <label class="f" for="rq-addr">Your receiving address</label>
+          <input type="text" id="rq-addr" spellcheck="false" autocomplete="off" placeholder="u1…">
+          <label class="f" for="rq-amt">Amount (ZEC, optional)</label>
+          <input type="text" id="rq-amt" inputmode="decimal" autocomplete="off" placeholder="0.05">
+          <label class="f" for="rq-memo">Memo (optional, shielded only) <span id="memo-count" class="mono">0 / 512 bytes</span></label>
+          <textarea id="rq-memo" spellcheck="false" placeholder="Invoice #1042"></textarea>
+          <label class="f" for="rq-msg">Label shown in the payer’s wallet (optional)</label>
+          <input type="text" id="rq-msg" autocomplete="off" placeholder="Coffee beans">
+          <div class="actions"><button class="btn small" id="rq-sample" type="button">Use sample address</button></div>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Result</span>
+          <div id="rq-out"><p class="hint">Fill in an address to generate a ZIP-321 link and QR code.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">§ 03 — Privacy by construction</span>
+      <div><h2>A privacy tool that can’t spy on you.</h2></div>
+      <p></p>
+      <p>Teaching privacy from a page that tracks you would be absurd. Shroud is a static site. There is no server to log you because there is no server.</p>
+    </div>
+    <div class="cols3">
+      <div class="card reveal"><h3>No requests</h3><p>A strict Content Security Policy forbids the page from talking to anything: <code class="mono">connect-src 'none'</code>. Fonts, scripts and QR code are all bundled. No CDN, no analytics, no cookies.</p></div>
+      <div class="card reveal"><h3>Verify, don’t trust</h3><p>Open your browser’s Network tab and reload. Everything is a file from this origin. The badge below counts cross-origin requests live.</p>
+        <div class="proof"><i></i><span>External requests: <b id="extreq">0</b></span></div></div>
+      <div class="card reveal"><h3>Honest limits</h3><ul><li>Doesn’t hide your IP. Use Tor or a VPN.</li><li>Can’t change what an exchange knows.</li><li>Leak Lab is a model, not a proof.</li></ul></div>
+    </div>
+
+    <div class="reveal" id="faq">
+      <h2 class="faq-h">Questions</h2>
+      <details><summary>Is shielded ZEC really private?</summary><p>Shielded transactions hide sender, recipient and amount using zero-knowledge proofs. The risks are at the edges: transparent entry and exit points, reused addresses, and metadata outside the chain. That is exactly what the Leak Lab exists to catch.</p></details>
+      <details><summary>What’s the difference between Sapling and Orchard?</summary><p>Both are shielded pools. Orchard (2022) uses the Halo 2 proving system, which needs no trusted setup, and is the recommended default. Moving value between pools reveals the amount that crossed, so it’s best to stay in one.</p></details>
+      <details><summary>Why does shielding show up on-chain?</summary><p>The transaction has to take transparent inputs, so their address and total are public. Inside the pool, nothing is. Shielding is a one-way doorway: public to the door, private after it.</p></details>
+      <details><summary>Does Shroud ever see my address?</summary><p>No. The Inspector and Request Builder run in your browser and never send what you type anywhere. Nothing is stored except your course checkboxes, in local storage.</p></details>
+      <details><summary>How accurate is the Inspector?</summary><p>It performs a full ZIP-316 decode: Bech32m checksum, F4Jumble inversion, HRP padding check, and typecode parsing. The test suite replays official vectors from the zcash-test-vectors repository.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Shroud</strong> · MIT licensed · built for ZECATHON, Wildcard track.<br>Educational software. Not financial advice. Fees and wallet names change; verify with each project.</div>
+    <div>Protocol references: <a href="https://zips.z.cash/">ZIPs</a> · <a href="https://zcash.readthedocs.io/">Zcash docs</a> · <a href="https://github.com/zcash/librustzcash">librustzcash</a></div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+</body>
+</html>

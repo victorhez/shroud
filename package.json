@@ -1,0 +1,12 @@
+{
+  "name": "shroud",
+  "version": "1.0.0",
+  "description": "An interactive, zero-network course that takes you from nothing to your first shielded Zcash transaction.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test \"test/*.test.mjs\""
+  },
+  "engines": { "node": ">=20" }
+}
